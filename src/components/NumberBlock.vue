@@ -1,20 +1,19 @@
 <template>
-  <div class="flip">
+  <div :class="value ? 'flip' : ''" :data-testid="testId.number">
     <span class="title">{{ title }}</span>
 
     <b class="card">
-      <b class="top">{{value}}</b>
-      <b class="bottom" :data-value="value"></b>
+      <b class="top">{{ value }}</b>
+      <b class="bottom"></b>
       <b class="back">
         <b class="bottom" :data-value="value"></b>
       </b>
     </b>
   </div>
-
-
 </template>
 
 <script lang="ts">
+import { TestIds } from '../consts'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -29,11 +28,9 @@ export default Vue.extend({
       default: null
     }
   },
-  methods: {
-    getValueDigit(i: number) {
-      let strValue = this.value.toString()
-      strValue = strValue.length === 1 ? `0${strValue}` : strValue
-      return strValue.charAt(i)
+  data() {
+    return {
+      testId: TestIds['LottoNumbers']
     }
   }
 })
@@ -47,7 +44,7 @@ export default Vue.extend({
   display: block;
   position: relative; 
   padding-bottom: @halfHeight;
-  font-size: 9vw;
+  font-size: 4em;
   line-height: 0.95;
 }
 
@@ -63,7 +60,8 @@ export default Vue.extend({
   border-radius: @borderRadius @borderRadius 0 0;
   backface-visiblity: hidden;
   transform-style: preserve-3d;
-  width: 1.8em;
+  min-width: 150px;
+  max-width: 200px;
   transform: translateZ(0);
 }
 
