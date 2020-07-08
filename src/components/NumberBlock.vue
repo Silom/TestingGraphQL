@@ -24,7 +24,7 @@ export default Vue.extend({
       default: ''
     },
     value: {
-      type: Number,
+      type: String,
       default: null
     }
   },

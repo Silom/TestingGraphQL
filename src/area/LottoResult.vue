@@ -9,19 +9,22 @@
 <script lang="ts">
 import Vue from 'vue'
 import NumberBlock from '../components/NumberBlock.vue'
+import { getLottoNumbers } from '../service/lotto'
 
 export default Vue.extend({
   components: { NumberBlock },
   data() {
     return {
-      results: new Array(6)
+      results: new Array(5)
     }
   },
   mounted() {
-    // TODO fetch results via service interface
-    setTimeout(() => {
-      this.resultStepper([21, 5, 6, 32, 9, 6])
-    }, 500)
+    getLottoNumbers().then(data => {
+      // Someone might need to tell me how to display all of those numbers.
+      // Anyway the component is rather simple and can be extended by the length of this array.
+      // If any theme is required for special numbers, we could add this option here as well ({ value: '12', theme: 'default})
+      this.resultStepper([...data.data.draw.draws[0].numbers])
+    })
   },
   methods: {
     resultStepper(results: Array<number>) {

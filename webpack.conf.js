@@ -1,5 +1,6 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const getTransformer = require('ts-transform-graphql-tag').getTransformer
 
 const path = require('path')
 const dist = path.join(__dirname, 'dist')
@@ -27,15 +28,24 @@ module.exports = {
   },
   module: {
     rules: [{
+      test: /\.(graphql|gql)$/,
+      exclude: /node_modules/,
+      loader: 'graphql-tag/loader'
+    }, {
       test: /\.vue$/,
+      exclude: /node_modules/,
       loader: 'vue-loader'
     }, {
       test: /\.ts$/,
       loader: 'ts-loader',
       exclude: /node_modules/,
-      options: { appendTsSuffixTo: [/\.vue$/] }
+      options: {
+        appendTsSuffixTo: [/\.vue$/],
+        getCustomTransformers: () => ({ before: [getTransformer()] })
+      }
     }, {
       test: /\.less$/,
+      exclude: /node_modules/,
       use: [
         'vue-style-loader',
         'css-loader',
